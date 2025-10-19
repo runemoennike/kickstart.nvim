@@ -202,15 +202,15 @@ vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower win
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
 -- NOTE: Some terminals have colliding keymaps or are not able to send distinct keycodes
-vim.keymap.set("n", "<C-S-h>", "<C-w>H", { desc = "Move window to the left" })
-vim.keymap.set("n", "<C-S-l>", "<C-w>L", { desc = "Move window to the right" })
-vim.keymap.set("n", "<C-S-j>", "<C-w>J", { desc = "Move window to the lower" })
-vim.keymap.set("n", "<C-S-k>", "<C-w>K", { desc = "Move window to the upper" })
+vim.keymap.set('n', '<C-S-h>', '<C-w>H', { desc = 'Move window to the left' })
+vim.keymap.set('n', '<C-S-l>', '<C-w>L', { desc = 'Move window to the right' })
+vim.keymap.set('n', '<C-S-j>', '<C-w>J', { desc = 'Move window to the lower' })
+vim.keymap.set('n', '<C-S-k>', '<C-w>K', { desc = 'Move window to the upper' })
 
 -- Custom remaps
-vim.keymap.set('n', 'K', 'i<CR><Esc>', { desc = "Split line" })
-vim.keymap.set('i', 'jk', '<Esc>', { desc = "Exit insert mode" })
-vim.keymap.set('n', 'Y', 'yy', { desc = "Copy entire line" })
+vim.keymap.set('n', 'K', 'i<CR><Esc>', { desc = 'Split line' })
+vim.keymap.set('i', 'jk', '<Esc>', { desc = 'Exit insert mode' })
+vim.keymap.set('n', 'Y', 'yy', { desc = 'Copy entire line' })
 
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
@@ -579,6 +579,8 @@ require('lazy').setup({
           --  the definition of its *type*, not where it was *defined*.
           map('grt', require('telescope.builtin').lsp_type_definitions, '[G]oto [T]ype Definition')
 
+          map('grk', vim.lsp.buf.hover, 'Show symbol information')
+
           -- This function resolves a difference between neovim nightly (version 0.11) and stable (version 0.10)
           ---@param client vim.lsp.Client
           ---@param method vim.lsp.protocol.Method
@@ -681,8 +683,8 @@ require('lazy').setup({
         -- clangd = {},
         -- gopls = {},
         pyright = {},
-		-- roslyn_ls = {},
-		powershell_es = {},
+        -- roslyn_ls = {},
+        powershell_es = {},
         -- rust_analyzer = {},
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
         --
@@ -891,16 +893,16 @@ require('lazy').setup({
     --
     -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
     'Tsuzat/NeoSolarized.nvim',
-	lazy = false,
+    lazy = false,
     priority = 1000, -- Make sure to load this before all the other start plugins.
-	config = function()
-	  local ns = require("NeoSolarized")
-	  ns.setup {
+    config = function()
+      local ns = require 'NeoSolarized'
+      ns.setup {
         transparent = false,
-		style = "light",
+        style = 'light',
       }
       vim.cmd [[ colorscheme NeoSolarized ]]
-	end
+    end,
   },
 
   -- Highlight todo, notes, etc in comments
@@ -969,7 +971,7 @@ require('lazy').setup({
     --    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
   },
   {
-	'equalsraf/neovim-gui-shim'
+    'equalsraf/neovim-gui-shim',
   },
 
   -- The following comments only work if you have downloaded the kickstart repo, not just copy pasted the
