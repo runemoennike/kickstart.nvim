@@ -212,6 +212,21 @@ vim.keymap.set('n', 'K', 'i<CR><Esc>', { desc = 'Split line' })
 vim.keymap.set('i', 'jk', '<Esc>', { desc = 'Exit insert mode' })
 vim.keymap.set('n', 'Y', 'yy', { desc = 'Copy entire line' })
 
+-- Set shell depending on OS
+--OS detection
+local mySysname = vim.loop.os_uname().sysname
+local isMac = mySysname == 'Darwin'
+local isLinux = mySysname == 'Linux'
+local isWin = mySysname:find 'Windows' and true or false
+local isWsl = isLinux and vim.loop.os_uname().release:find 'Microsoft' and true or false
+if isWin then
+  if vim.fn.executable 'pwsh' == 1 then
+    vim.opt.shell = 'pwsh' --"pwsh" for 7.x if installed
+  else
+    vim.opt.shell = 'powershell' --"powershell" for 5.x
+  end
+end
+
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
 
