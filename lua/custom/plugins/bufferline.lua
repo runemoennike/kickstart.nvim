@@ -6,7 +6,7 @@ return {
   config = function()
     vim.opt.termguicolors = true
 
-    local bufferline = require('bufferline')
+    local bufferline = require 'bufferline'
     bufferline.setup {
       options = {
         style_preset = {
@@ -32,8 +32,7 @@ return {
     vim.keymap.set('n', '<A-.>', ':BufferLineCycleNext<CR>', { desc = 'Next buffer', silent = true })
     vim.keymap.set('n', '<A-n>', ':enew<CR>', { desc = 'New buffer', silent = true })
     vim.keymap.set('n', '<A-t>', ':BufferLineTogglePin<CR>', { desc = 'Pin/unpin buffer', silent = true })
-    vim.keymap.set('n', '<A-p>', ':BufferLinePick<CR>', { desc = 'Pin/unpin buffer', silent = true })
-
+    vim.keymap.set('n', '<A-p>', ':BufferLinePick<CR>', { desc = 'Jump to tab', silent = true })
   end,
   version = '*',
 }
