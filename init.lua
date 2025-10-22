@@ -964,6 +964,8 @@ require('lazy').setup({
         return '%2l:%-2v'
       end
 
+      vim.o.laststatus = 3
+
       -- ... and there is more!
       --  Check out: https://github.com/echasnovski/mini.nvim
     end,
@@ -1012,8 +1014,9 @@ require('lazy').setup({
   -- require 'kickstart.plugins.autopairs',
   require 'kickstart.plugins.neo-tree',
   -- require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
-  require 'custom.plugins.bufferline',
+  -- require 'custom.plugins.bufferline',
   require 'custom.plugins.venv-selector',
+  require 'custom.plugins.winbar',
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    This is the easiest way to modularize your config.
