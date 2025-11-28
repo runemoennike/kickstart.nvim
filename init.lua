@@ -715,7 +715,17 @@ require('lazy').setup({
             enableProfileLoading = false,
           },
         },
-        elixirls = {},
+        elixirls = {
+          on_new_config = function(new_config, _)
+            -- new_config.cmd_env = {
+            --   ELIXIR_LS_DISABLE_EXPERT = 'true',
+            -- }
+
+            if isWin then
+              new_config.cmd_env.ERL_FLAGS = '-name elixir_ls@127.0.0.1 -setcookie mycookie'
+            end
+          end,
+        },
         azure_pipelines_ls = {},
         tombi = {},
         ts_ls = {},
