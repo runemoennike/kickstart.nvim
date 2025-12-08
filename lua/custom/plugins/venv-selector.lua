@@ -6,7 +6,7 @@ return {
   },
   ft = 'python', -- Load when opening Python files
   keys = {
-    { '<leader>v', '<cmd>VenvSelect<cr>', desc = 'Change Python [v]env' }, -- Open picker on keymap
+    { '<leader>a', '<cmd>VenvSelect<cr>', desc = '[A]ctivate Python venv' }, -- Open picker on keymap
   },
   opts = { -- this can be an empty lua table - just showing below for clarity.
     search = {}, -- if you add your own searches, they go here.

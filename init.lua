@@ -370,6 +370,8 @@ require('lazy').setup({
         { '<leader>s', group = '[S]earch' },
         { '<leader>t', group = '[T]oggle' },
         { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
+        { '<leader>r', group = '[R]un' },
+        { '<leader>v', group = '[V]iew' },
       },
     },
   },
@@ -1045,6 +1047,7 @@ require('lazy').setup({
   require 'kickstart.plugins.neo-tree',
   -- require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
   -- require 'custom.plugins.bufferline',
+  require 'custom.plugins.neotest',
   require 'custom.plugins.venv-selector',
   require 'custom.plugins.winbar',
 
