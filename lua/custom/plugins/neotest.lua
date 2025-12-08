@@ -18,6 +18,7 @@ return {
     {
       '<leader>rr',
       function()
+        require('neotest').output_panel.clear()
         require('neotest').run.run_last()
       end,
       desc = '[R]un last test(s).',
@@ -25,6 +26,7 @@ return {
     {
       '<leader>rn',
       function()
+        require('neotest').output_panel.clear()
         require('neotest').run.run()
       end,
       desc = 'Run [n]earest test.',
@@ -32,6 +34,7 @@ return {
     {
       '<leader>rf',
       function()
+        require('neotest').output_panel.clear()
         require('neotest').run.run(vim.fn.expand '%')
       end,
       desc = 'Run tests in current [f]ile.',
@@ -44,18 +47,18 @@ return {
       desc = '[S]top running tests.',
     },
     {
-      '<leader>vt',
+      '<C-w>t',
       function()
         require('neotest').output.open { enter = true }
       end,
       desc = 'View [t]est window.',
     },
     {
-      '<leader>vT',
+      '<leader>tt',
       function()
-        require('neotest').output_panel.open()
+        require('neotest').output_panel.toggle()
       end,
-      desc = 'View [t]est panel.',
+      desc = 'Toggle [t]est panel.',
     },
   },
 }
