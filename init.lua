@@ -1046,7 +1046,10 @@ require('lazy').setup({
   require 'kickstart.plugins.neo-tree',
   -- require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
   -- require 'custom.plugins.bufferline',
+  -- require 'custom.plugins.dashboard',
+  require 'custom.plugins.harpoon',
   require 'custom.plugins.neotest',
+  require 'custom.plugins.persistence',
   require 'custom.plugins.venv-selector',
   require 'custom.plugins.winbar',
 
