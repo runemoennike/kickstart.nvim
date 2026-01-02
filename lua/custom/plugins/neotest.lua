@@ -47,6 +47,13 @@ return {
       desc = '[S]top running tests.',
     },
     {
+      '<leader>rc',
+      function()
+        require('neotest').output_panel.clear()
+      end,
+      desc = '[C]lear test panel.',
+    },
+    {
       '<C-w>t',
       function()
         require('neotest').output.open { enter = true }
