@@ -85,6 +85,9 @@ I hope you enjoy your Neovim journey,
 P.S. You can delete this when you're done too. It's your config now! :)
 --]]
 
+-- TEMP
+vim.lsp.set_log_level 'debug'
+
 -- Set <space> as the leader key
 -- See `:help mapleader`
 --  NOTE: Must happen before plugins are loaded (otherwise wrong leader will be used)
@@ -726,10 +729,10 @@ require('lazy').setup({
 
       --- UGLY FIX
 
-      -- Default handler reference
+      -- Default handler
       local default_publish = vim.lsp.handlers['textDocument/publishDiagnostics']
 
-      -- Track pending clear timers and last non-empty timestamps per file
+      -- Track pending timers and last non-empty times per file
       local pending_clear_timers = {}
       local last_nonempty_at = {}
 
@@ -743,26 +746,58 @@ require('lazy').setup({
       end
 
       -- Tune these to your liking
-
-      -- Minimal per-server publishDiagnostics handler for ElixirLS
-      local default_publish = vim.lsp.handlers['textDocument/publishDiagnostics']
+      local EMPTY_CLEAR_DELAY = 350 -- apply clear shortly after TTL expires
+      local NONEMPTY_TTL_MS = 1000 -- minimum quiet time since last non-empty before any empty can clear
 
       function elixirls_publish_diagnostics(_, result, ctx, config)
         if not result or not result.uri or result.diagnostics == nil then
           return default_publish(_, result, ctx, config)
         end
 
+        local key = key_from_uri(result.uri)
         local is_empty = #result.diagnostics == 0
+        local now_ms = vim.loop.hrtime() / 1e6
+
+        -- Cancel any pending clear on new publish
+        local pending = pending_clear_timers[key]
+        if pending and not pending:is_closing() then
+          pending:stop()
+          pending:close()
+          pending_clear_timers[key] = nil
+        end
 
         if not is_empty then
+          -- Non-empty diagnostics: show and remember timestamp
+          last_nonempty_at[key] = now_ms
           return default_publish(_, result, ctx, config)
         end
 
-        if result.version == 0 then
-          return
+        -- Empty diagnostics:
+        --  Instead of ignoring during TTL, schedule the clear for when TTL expires.
+        local last_ts = last_nonempty_at[key] or 0
+        local elapsed = now_ms - last_ts
+        local wait_ms = 0
+
+        if elapsed < NONEMPTY_TTL_MS then
+          wait_ms = (NONEMPTY_TTL_MS - elapsed) + EMPTY_CLEAR_DELAY
+        else
+          wait_ms = EMPTY_CLEAR_DELAY
         end
 
-        return default_publish(_, result, ctx, config)
+        local timer = vim.uv.new_timer()
+        pending_clear_timers[key] = timer
+        timer:start(wait_ms, 0, function()
+          vim.schedule(function()
+            -- Apply the empty clear only if nothing else arrived in the meantime
+            if pending_clear_timers[key] == timer then
+              default_publish(_, result, ctx, config)
+              if not timer:is_closing() then
+                timer:close()
+              end
+              pending_clear_timers[key] = nil
+            end
+          end)
+        end)
       end
       --- END UGLY FIX
 
@@ -894,7 +929,10 @@ require('lazy').setup({
         local disable_filetypes = {
           c = true,
           cpp = true,
-          -- elixir = true, eelixir = true, heex = true, surface = true
+          elixir = true,
+          eelixir = true,
+          heex = true,
+          surface = true,
         }
         if disable_filetypes[vim.bo[bufnr].filetype] then
           return nil
