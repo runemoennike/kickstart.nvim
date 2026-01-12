@@ -727,15 +727,16 @@ require('lazy').setup({
 
       local util = require 'lspconfig.util'
 
-      --- UGLY FIX
+      --- UGLY FIX FOR ELIXIRLS DIAGNOSTICS CLEARING IMMIDIATELY
 
       -- Default handler
       local default_publish = vim.lsp.handlers['textDocument/publishDiagnostics']
 
-      -- Track pending timers and last non-empty times per file
+      -- Track a pending "clear" timer and the last empty payload per file
       local pending_clear_timers = {}
-      local last_nonempty_at = {}
+      local latest_empty_payload = {}
 
+      -- Normalize a URI to a stable key (handles Windows drive case and % encodings)
       local function key_from_uri(uri)
         local fname = vim.uri_to_fname(uri)
         fname = vim.fs.normalize(fname)
@@ -745,9 +746,8 @@ require('lazy').setup({
         return fname
       end
 
-      -- Tune these to your liking
-      local EMPTY_CLEAR_DELAY = 350 -- apply clear shortly after TTL expires
-      local NONEMPTY_TTL_MS = 1000 -- minimum quiet time since last non-empty before any empty can clear
+      -- Tune this: how long to wait before applying an empty clear (in ms)
+      local EMPTY_CLEAR_DELAY = 800
 
       function elixirls_publish_diagnostics(_, result, ctx, config)
         if not result or not result.uri or result.diagnostics == nil then
@@ -756,9 +756,8 @@ require('lazy').setup({
 
         local key = key_from_uri(result.uri)
         local is_empty = #result.diagnostics == 0
-        local now_ms = vim.loop.hrtime() / 1e6
 
-        -- Cancel any pending clear on new publish
+        -- Any new publish cancels an in-flight clear
         local pending = pending_clear_timers[key]
         if pending and not pending:is_closing() then
           pending:stop()
@@ -766,39 +765,40 @@ require('lazy').setup({
           pending_clear_timers[key] = nil
         end
 
+        -- Case 1: non-empty diagnostics -> show immediately
         if not is_empty then
-          -- Non-empty diagnostics: show and remember timestamp
-          last_nonempty_at[key] = now_ms
           return default_publish(_, result, ctx, config)
         end
 
-        -- Empty diagnostics:
-        --  Instead of ignoring during TTL, schedule the clear for when TTL expires.
-        local last_ts = last_nonempty_at[key] or 0
-        local elapsed = now_ms - last_ts
-        local wait_ms = 0
-
-        if elapsed < NONEMPTY_TTL_MS then
-          wait_ms = (NONEMPTY_TTL_MS - elapsed) + EMPTY_CLEAR_DELAY
-        else
-          wait_ms = EMPTY_CLEAR_DELAY
+        -- Case 2: empty diagnostics at startup -> ignore transitional clears
+        if result.version == 0 then
+          return
         end
+
+        -- Case 3: empty diagnostics -> store and schedule a clear shortly
+        latest_empty_payload[key] = { result = result, ctx = ctx, config = config }
 
         local timer = vim.uv.new_timer()
         pending_clear_timers[key] = timer
-        timer:start(wait_ms, 0, function()
+
+        timer:start(EMPTY_CLEAR_DELAY, 0, function()
           vim.schedule(function()
-            -- Apply the empty clear only if nothing else arrived in the meantime
             if pending_clear_timers[key] == timer then
-              default_publish(_, result, ctx, config)
+              -- Re-check we still intend to clear, then apply the last empty
+              local payload = latest_empty_payload[key]
+              if payload then
+                default_publish(_, payload.result, payload.ctx, payload.config)
+              end
               if not timer:is_closing() then
                 timer:close()
               end
               pending_clear_timers[key] = nil
+              latest_empty_payload[key] = nil
             end
           end)
         end)
       end
+
       --- END UGLY FIX
 
       local servers = {
@@ -1172,6 +1172,7 @@ require('lazy').setup({
   require 'custom.plugins.persistence',
   require 'custom.plugins.venv-selector',
   require 'custom.plugins.winbar',
+  require 'custom.plugins.treesitter-textobjects',
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    This is the easiest way to modularize your config.
