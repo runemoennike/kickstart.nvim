@@ -85,9 +85,6 @@ I hope you enjoy your Neovim journey,
 P.S. You can delete this when you're done too. It's your config now! :)
 --]]
 
--- TEMP
-vim.lsp.set_log_level 'debug'
-
 -- Set <space> as the leader key
 -- See `:help mapleader`
 --  NOTE: Must happen before plugins are loaded (otherwise wrong leader will be used)
@@ -171,6 +168,8 @@ vim.o.scrolloff = 10
 vim.o.confirm = true
 
 vim.o.expandtab = true
+
+vim.o.termguicolors = true
 
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
@@ -605,11 +604,14 @@ require('lazy').setup({
 
           -- Fuzzy find all the symbols in your current document.
           --  Symbols are things like variables, functions, types, etc.
-          map('gO', require('telescope.builtin').lsp_document_symbols, 'Open Document Symbols')
+          map('gd', require('telescope.builtin').lsp_document_symbols, 'Open [D]ocument Symbols')
 
           -- Fuzzy find all the symbols in your current workspace.
           --  Similar to document symbols, except searches over your entire project.
-          map('gW', require('telescope.builtin').lsp_dynamic_workspace_symbols, 'Open Workspace Symbols')
+          map('gW', require('telescope.builtin').lsp_dynamic_workspace_symbols, 'Open [W]orkspace Symbols')
+
+          -- Fuzzy find treesitter symbols.
+          map('gs', require('telescope.builtin').treesitter, 'Search [S]ymbols')
 
           -- Jump to the type of the word under your cursor.
           --  Useful when you're not sure what type a variable is and you want to see
@@ -1074,7 +1076,7 @@ require('lazy').setup({
     'rose-pine/neovim',
     name = 'rose-pine',
     config = function()
-      vim.cmd 'colorscheme rose-pine'
+      -- vim.cmd 'colorscheme rose-pine'
     end,
   },
   {
@@ -1085,6 +1087,10 @@ require('lazy').setup({
       -- Optionally configure and load the colorscheme
       -- directly inside the plugin declaration.
       vim.g.gruvbox_material_enable_italic = true
+      vim.g.gruvbox_material_background = 'medium' -- soft, medium, hard
+      vim.g.gruvbox_material_foreground = 'material' -- material, original, mix
+      vim.o.background = 'dark' -- dark, light
+
       vim.cmd.colorscheme 'gruvbox-material'
     end,
   },
