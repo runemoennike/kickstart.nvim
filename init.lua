@@ -446,7 +446,7 @@ require('lazy').setup({
             require('telescope.themes').get_dropdown(),
           },
           live_grep_args = {
-            auto_quoting = true, -- enable/disable auto-quoting
+            auto_quoting = false, -- enable/disable auto-quoting
             -- define mappings, e.g.
             mappings = { -- extend mappings
               i = {
@@ -468,6 +468,7 @@ require('lazy').setup({
       -- See `:help telescope.builtin`
       local builtin = require 'telescope.builtin'
       local extensions = require('telescope').extensions
+      local live_grep_args_shortcuts = require 'telescope-live-grep-args.shortcuts'
 
       vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })
       vim.keymap.set('n', '<leader>sk', builtin.keymaps, { desc = '[S]earch [K]eymaps' })
@@ -478,6 +479,9 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>sg', function()
         extensions.live_grep_args.live_grep_args()
       end, { desc = '[S]earch by [G]rep' })
+      vim.keymap.set('n', '<leader>sG', function()
+        live_grep_args_shortcuts.grep_word_under_cursor()
+      end, { desc = '[S]earch current word by [G]rep' })
       vim.keymap.set('n', '<leader>sd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
       vim.keymap.set('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
       vim.keymap.set('n', '<leader>s.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
@@ -1204,6 +1208,7 @@ require('lazy').setup({
   -- require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
   -- require 'custom.plugins.bufferline',
   -- require 'custom.plugins.dashboard',
+  require 'custom.plugins.dragdrop',
   require 'custom.plugins.harpoon',
   require 'custom.plugins.neotest',
   require 'custom.plugins.persistence',
