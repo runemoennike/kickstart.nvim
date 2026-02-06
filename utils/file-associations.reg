@@ -1,0 +1,235 @@
+Windows Registry Editor Version 5.00
+
+
+; ============================================================
+; USER-LEVEL (NO ADMIN RIGHTS NEEDED)
+; All keys live under HKCU\Software\Classes
+; ============================================================
+
+
+; ------------------------------------------------------------
+; Register Neovim application handler (user-local)
+; ------------------------------------------------------------
+[HKEY_CURRENT_USER\Software\Classes\Applications\nvim.exe\shell\open\command]
+@="\"C:\\tools\\neovim\\nvim-win64\\bin\\nvim.exe\" \"%1\""
+
+
+; ------------------------------------------------------------
+; Define per-user ProgID for Neovim
+; ------------------------------------------------------------
+[HKEY_CURRENT_USER\Software\Classes\nvimfile]
+@="Neovim File"
+
+[HKEY_CURRENT_USER\Software\Classes\nvimfile\shell\open\command]
+@="\"C:\\tools\\neovim\\nvim-win64\\bin\\nvim.exe\" \"%1\""
+
+
+; ============================================================
+; FILE ASSOCIATIONS
+; Write associations under HKCU\Software\Classes
+; Register them under OpenWithProgids for Windows 11
+; ============================================================
+
+; Macro-syntax:
+; 1. HKCU\Software\Classes\.ext → sets default
+; 2. HKCU...OpenWithProgids → allows "Open with" to show nvimfile
+
+; ------------ BASIC TEXT TYPES ---------------------
+[HKEY_CURRENT_USER\Software\Classes\.txt]
+@="nvimfile"
+[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.txt\OpenWithProgids]
+"nvimfile"=hex(0):
+
+[HKEY_CURRENT_USER\Software\Classes\.log]
+@="nvimfile"
+[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.log\OpenWithProgids]
+"nvimfile"=hex(0):
+
+[HKEY_CURRENT_USER\Software\Classes\.cfg]
+@="nvimfile"
+[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.cfg\OpenWithProgids]
+"nvimfile"=hex(0):
+
+[HKEY_CURRENT_USER\Software\Classes\.conf]
+@="nvimfile"
+[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.conf\OpenWithProgids]
+"nvimfile"=hex(0):
+
+[HKEY_CURRENT_USER\Software\Classes\.ini]
+@="nvimfile"
+[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.ini\OpenWithProgids]
+"nvimfile"=hex(0):
+
+[HKEY_CURRENT_USER\Software\Classes\.md]
+@="nvimfile"
+[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.md\OpenWithProgids]
+"nvimfile"=hex(0):
+
+[HKEY_CURRENT_USER\Software\Classes\.rst]
+@="nvimfile"
+[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.rst\OpenWithProgids]
+"nvimfile"=hex(0):
+
+
+; ------------ DATA FORMATS ---------------------
+[HKEY_CURRENT_USER\Software\Classes\.csv]
+@="nvimfile"
+[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.csv\OpenWithProgids]
+"nvimfile"=hex(0):
+
+[HKEY_CURRENT_USER\Software\Classes\.tsv]
+@="nvimfile"
+[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.tsv\OpenWithProgids]
+"nvimfile"=hex(0):
+
+[HKEY_CURRENT_USER\Software\Classes\.json]
+@="nvimfile"
+[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.json\OpenWithProgids]
+"nvimfile"=hex(0):
+
+[HKEY_CURRENT_USER\Software\Classes\.jsonl]
+@="nvimfile"
+[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.jsonl\OpenWithProgids]
+"nvimfile"=hex(0):
+
+[HKEY_CURRENT_USER\Software\Classes\.yaml]
+@="nvimfile"
+[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.yaml\OpenWithProgids]
+"nvimfile"=hex(0):
+
+[HKEY_CURRENT_USER\Software\Classes\.yml]
+@="nvimfile"
+[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.yml\OpenWithProgids]
+"nvimfile"=hex(0):
+
+[HKEY_CURRENT_USER\Software\Classes\.xml]
+@="nvimfile"
+[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.xml\OpenWithProgids]
+"nvimfile"=hex(0):
+
+
+; ------------ CODE / SCRIPT / CONFIG ---------------------
+[HKEY_CURRENT_USER\Software\Classes\.py]
+@="nvimfile"
+[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.py\OpenWithProgids]
+"nvimfile"=hex(0):
+
+[HKEY_CURRENT_USER\Software\Classes\.lua]
+@="nvimfile"
+[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.lua\OpenWithProgids]
+"nvimfile"=hex(0):
+
+[HKEY_CURRENT_USER\Software\Classes\.sh]
+@="nvimfile"
+[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.sh\OpenWithProgids]
+"nvimfile"=hex(0):
+
+[HKEY_CURRENT_USER\Software\Classes\.bat]
+@="nvimfile"
+[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.bat\OpenWithProgids]
+"nvimfile"=hex(0):
+
+[HKEY_CURRENT_USER\Software\Classes\.ps1]
+@="nvimfile"
+[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.ps1\OpenWithProgids]
+"nvimfile"=hex(0):
+
+[HKEY_CURRENT_USER\Software\Classes\.toml]
+@="nvimfile"
+[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.toml\OpenWithProgids]
+"nvimfile"=hex(0):
+
+[HKEY_CURRENT_USER\Software\Classes\.env]
+@="nvimfile"
+[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.env\OpenWithProgids]
+"nvimfile"=hex(0):
+
+[HKEY_CURRENT_USER\Software\Classes\.js]
+@="nvimfile"
+[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.js\OpenWithProgids]
+"nvimfile"=hex(0):
+
+
+; ------------ GENERIC CONFIG TYPES ---------------------
+[HKEY_CURRENT_USER\Software\Classes\.config]
+@="nvimfile"
+[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.config\OpenWithProgids]
+"nvimfile"=hex(0):
+
+[HKEY_CURRENT_USER\Software\Classes\.properties]
+@="nvimfile"
+[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.properties\OpenWithProgids]
+"nvimfile"=hex(0):
+
+[HKEY_CURRENT_USER\Software\Classes\.service]
+@="nvimfile"
+[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.service\OpenWithProgids]
+"nvimfile"=hex(0):
+
+[HKEY_CURRENT_USER\Software\Classes\.unit]
+@="nvimfile"
+[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.unit\OpenWithProgids]
+"nvimfile"=hex(0):
+
+
+; ------------ MISC TEXT FILE TYPES ---------------------
+[HKEY_CURRENT_USER\Software\Classes\.todo]
+@="nvimfile"
+[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.todo\OpenWithProgids]
+"nvimfile"=hex(0):
+
+[HKEY_CURRENT_USER\Software\Classes\.bak]
+@="nvimfile"
+[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.bak\OpenWithProgids]
+"nvimfile"=hex(0):
+
+[HKEY_CURRENT_USER\Software\Classes\.old]
+@="nvimfile"
+[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.old\OpenWithProgids]
+"nvimfile"=hex(0):
+
+[HKEY_CURRENT_USER\Software\Classes\.lst]
+@="nvimfile"
+[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.lst\OpenWithProgids]
+"nvimfile"=hex(0):
+
+[HKEY_CURRENT_USER\Software\Classes\.rc]
+@="nvimfile"
+[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.rc\OpenWithProgids]
+"nvimfile"=hex(0):
+
+[HKEY_CURRENT_USER\Software\Classes\.hosts]
+@="nvimfile"
+[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.hosts\OpenWithProgids]
+"nvimfile"=hex(0):
+
+
+; ============================================================
+; CONTEXT MENUS (User-only, no admin needed)
+; ============================================================
+
+; -------- Right-click "Open with Neovim" on ANY file --------
+[HKEY_CURRENT_USER\Software\Classes\*\shell\Open with Neovim]
+@="Open with Neovim"
+Icon="C:\\tools\\neovim\\nvim-win64\\bin\\nvim.exe"
+
+[HKEY_CURRENT_USER\Software\Classes\*\shell\Open with Neovim\command]
+@="\"C:\\tools\\neovim\\nvim-win64\\bin\\nvim.exe\" \"%1\""
+
+
+; -------- Right-click folder → Overwrite command --------
+[HKEY_CURRENT_USER\Software\Classes\Directory\shell\Open Neovim Here]
+@="Open Neovim Here"
+Icon="C:\\tools\\neovim\\nvim-win64\\bin\\nvim.exe"
+
+[HKEY_CURRENT_USER\Software\Classes\Directory\shell\Open Neovim Here\command]
+@="\"C:\\tools\\neovim\\nvim-win64\\bin\\nvim.exe\" \"%1\""
+
+
+; -------- Right-click background of folder --------
+[HKEY_CURRENT_USER\Software\Classes\Directory\Background\shell\Open Neovim Here]
+@="Open Neovim Here"
+Icon="C:\\tools\\neovim\\nvim-win64\\bin\\nvim.exe"
+
+[HKEY_CURRENT_USER\Software\Classes\Directory\Background\shell\Open Neovim Here\command]
+@="\"C:\\tools\\neovim\\nvim-win64\\bin\\nvim.exe\" \"%V\""
