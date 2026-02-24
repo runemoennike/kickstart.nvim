@@ -1233,6 +1233,7 @@ require('lazy').setup({
   require 'custom.plugins.persistence',
   require 'custom.plugins.venv-selector',
   require 'custom.plugins.winbar',
+  require 'custom.plugins.render-markdown',
   require 'custom.plugins.treesitter-textobjects',
   require 'custom.plugins.roslyn',
 
