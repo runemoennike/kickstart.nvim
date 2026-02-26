@@ -959,6 +959,9 @@ require('lazy').setup({
           eelixir = true,
           heex = true,
           surface = true,
+          ps1 = true,
+          psm1 = true,
+          psd1 = true,
         }
         if disable_filetypes[vim.bo[bufnr].filetype] then
           return nil
