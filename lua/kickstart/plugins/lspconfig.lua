@@ -8,6 +8,7 @@ return {
     -- NOTE: `opts = {}` is the same as calling `require('mason').setup({})`
     {
       'mason-org/mason.nvim',
+      cmd = { 'Mason', 'MasonInstall', 'MasonUpdate' },
       opts = {
         registries = {
           'github:mason-org/mason-registry',

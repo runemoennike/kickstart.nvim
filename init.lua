@@ -204,7 +204,7 @@ require('lazy').setup({
   require 'custom.plugins.treesitter-textobjects',
   require 'custom.plugins.venv-selector',
   require 'custom.plugins.winbar',
-  require 'kickstart.plugins.debug',
+  -- require 'kickstart.plugins.debug',
   require 'kickstart.plugins.indent_line',
   require 'kickstart.plugins.neo-tree',
 }, {
