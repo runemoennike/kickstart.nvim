@@ -132,7 +132,11 @@ end
 -- Set shell depending on OS (optimized for Windows - use vim.fn.has instead of vim.loop)
 local isWin = vim.fn.has 'win32' == 1
 if isWin then
-  vim.opt.shell = vim.fn.executable 'pwsh' == 1 and 'pwsh' or 'powershell'
+  if vim.fn.executable 'pwsh' == 1 then
+    vim.opt.shell = 'pwsh' --"pwsh" for 7.x if installed
+  else
+    vim.opt.shell = 'powershell' --"powershell" for 5.x
+  end
 end
 
 -- [[ Basic Autocommands ]]

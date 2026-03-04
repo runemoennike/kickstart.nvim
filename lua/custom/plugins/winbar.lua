@@ -1,7 +1,7 @@
 return {
   {
     'ramilito/winbar.nvim',
-    event = { 'BufReadPost', 'BufNewFile' }, -- Load when opening a file, not at startup
+    event = 'VimEnter', -- Alternatively, BufReadPre if we don't care about the empty file when starting with 'nvim'
     dependencies = { 'nvim-tree/nvim-web-devicons' },
     config = function()
       require('winbar').setup {
