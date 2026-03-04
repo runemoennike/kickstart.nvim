@@ -1,8 +1,8 @@
-GuiTabline 0
+#GuiTabline 0
 
 " Set Editor Font
 if exists(':GuiFont')
-	let s:fontsize = 12
+	let s:fontsize = 10
 	function! AdjustFontSize(amount)
 	  let s:fontsize = s:fontsize+a:amount
 	  :execute "GuiFont! FiraCode Nerd Font:h" . s:fontsize

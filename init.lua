@@ -122,6 +122,14 @@ vim.keymap.set('n', 'K', 'i<CR><Esc>', { desc = 'Split line' })
 vim.keymap.set('i', 'jk', '<Esc>', { desc = 'Exit insert mode' })
 vim.keymap.set('n', 'Y', 'yy', { desc = 'Copy entire line' })
 
+if vim.g.neovide == true then
+  -- vim.cmd 'set guifont=Hack\ NF:h10'
+  -- vim.o.guifont='Consolas:h10'
+  -- vim.o.guifont='FiraCode NF:h14'
+  vim.o.guifont = 'Operator Mono,FiraCode NF:h14'
+  vim.api.nvim_set_keymap('n', '<F11>', ':let g:neovide_fullscreen = !g:neovide_fullscreen<CR>', {})
+end
+
 -- Set shell depending on OS (optimized for Windows - use vim.fn.has instead of vim.loop)
 local isWin = vim.fn.has 'win32' == 1
 if isWin then
