@@ -1,4 +1,4 @@
-#GuiTabline 0
+"GuiTabline 0
 
 " Set Editor Font
 if exists(':GuiFont')
