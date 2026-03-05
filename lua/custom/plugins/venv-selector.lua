@@ -9,7 +9,10 @@ return {
     { '<leader>a', '<cmd>VenvSelect<cr>', desc = '[A]ctivate Python venv' }, -- Open picker on keymap
   },
   opts = { -- this can be an empty lua table - just showing below for clarity.
-    search = {}, -- if you add your own searches, they go here.
-    options = {}, -- if you add plugin options, they go here.
+    options = {
+      notify_user_on_venv_activation = true,
+      search_timeout = 15,
+      log_level = 'trace',
+    },
   },
 }

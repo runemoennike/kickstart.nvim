@@ -3,7 +3,7 @@
 
 return {
   'nvim-neo-tree/neo-tree.nvim',
-  cmd = 'Neotree',
+  event = 'VeryLazy',
   version = '*',
   dependencies = {
     'nvim-lua/plenary.nvim',

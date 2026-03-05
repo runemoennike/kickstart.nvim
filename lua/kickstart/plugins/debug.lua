@@ -145,6 +145,35 @@ return {
       end,
       desc = '[D]ebug Clear all breakpoints [X]',
     },
+    -- Arrow key debugging shortcuts
+    {
+      '<Down>',
+      function()
+        require('dap').step_over()
+      end,
+      desc = 'Debug: Step Over',
+    },
+    {
+      '<Right>',
+      function()
+        require('dap').step_into()
+      end,
+      desc = 'Debug: Step Into',
+    },
+    {
+      '<Left>',
+      function()
+        require('dap').step_out()
+      end,
+      desc = 'Debug: Step Out',
+    },
+    {
+      '<Up>',
+      function()
+        require('dap').restart_frame()
+      end,
+      desc = 'Debug: Restart Frame',
+    },
   },
   config = function()
     local dap = require 'dap'
