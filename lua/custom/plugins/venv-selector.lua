@@ -13,6 +13,10 @@ return {
       notify_user_on_venv_activation = true,
       search_timeout = 15,
       log_level = 'trace',
+      shell = {
+        shell = 'cmd',
+        shellcmdflag = '/C ',
+      },
     },
   },
 }
