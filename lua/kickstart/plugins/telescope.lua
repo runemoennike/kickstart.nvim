@@ -140,6 +140,19 @@ return {
     local lga_actions = require 'telescope-live-grep-args.actions'
 
     telescope.setup {
+      defaults = {
+        path_display = function(_, path)
+          return vim.fn.fnamemodify(path, ':.')
+        end,
+        dynamic_preview_title = true,
+      },
+      pickers = {
+        lsp_references = { fname_width = math.floor(vim.o.columns * 0.3) },
+        lsp_definitions = { fname_width = math.floor(vim.o.columns * 0.3) },
+        lsp_implementations = { fname_width = math.floor(vim.o.columns * 0.3) },
+        lsp_type_definitions = { fname_width = math.floor(vim.o.columns * 0.3) },
+        diagnostics = { fname_width = math.floor(vim.o.columns * 0.3) },
+      },
       extensions = {
         ['ui-select'] = {
           require('telescope.themes').get_dropdown(),
