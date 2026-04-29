@@ -330,6 +330,13 @@ return {
         tombi = {},
         ts_ls = {},
         yamlls = {},
+        jsonls = {
+          format = {
+            enable = true,
+            tabSize = 4,
+            insertSpaces = true,
+          },
+        },
 
         -- rust_analyzer = {},
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
