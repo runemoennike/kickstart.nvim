@@ -7,6 +7,33 @@ vim.g.maplocalleader = ' '
 -- Set to true if you have a Nerd Font installed and selected in the terminal
 vim.g.have_nerd_font = true
 
+-- [[ Performance optimizations (Windows) ]]
+
+-- Enable bytecode cache before anything else loads.
+-- lazy.nvim also enables this, but only after `require('lazy')` itself has
+-- already paid the filesystem penalty without caching.
+vim.loader.enable()
+
+-- Disable providers we don't use.  Each enabled provider triggers expensive
+-- PATH lookups on Windows (especially on cold starts with Defender scanning).
+-- NOTE: These providers are ONLY needed for legacy remote-plugin interfaces
+-- (`:python3`, `:ruby`, etc.).  LSP servers (pyright, ts_ls, …) do NOT use them.
+vim.g.loaded_python3_provider = 0
+vim.g.loaded_ruby_provider = 0
+vim.g.loaded_perl_provider = 0
+vim.g.loaded_node_provider = 0
+
+-- Disable built-in plugins that are unused (neo-tree replaces netrw).
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+vim.g.loaded_netrwSettings = 1
+vim.g.loaded_netrwFileHandlers = 1
+vim.g.loaded_tutor_mode_plugin = 1
+vim.g.loaded_2html_plugin = 1
+vim.g.loaded_zipPlugin = 1
+vim.g.loaded_gzip = 1
+vim.g.loaded_tarPlugin = 1
+
 -- [[ Setting options ]]
 -- See `:help vim.o`
 -- NOTE: You can change these options as you wish!
