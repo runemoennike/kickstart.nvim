@@ -305,7 +305,16 @@ return {
       mason = {
         -- clangd = {},
         -- gopls = {},
-        pyright = {},
+        pyright = {
+          settings = {
+            python = {
+              analysis = {
+                -- Exclude .ipynb files so Pyright doesn't lock them (breaks jupytext saves on Windows)
+                exclude = { '**/*.ipynb' },
+              },
+            },
+          },
+        },
         roslyn = {},
         powershell_es = {
           filetypes = { 'ps1', 'psm1', 'psd1' },

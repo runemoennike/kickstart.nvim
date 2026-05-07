@@ -18,7 +18,7 @@ vim.loader.enable()
 -- PATH lookups on Windows (especially on cold starts with Defender scanning).
 -- NOTE: These providers are ONLY needed for legacy remote-plugin interfaces
 -- (`:python3`, `:ruby`, etc.).  LSP servers (pyright, ts_ls, …) do NOT use them.
-vim.g.loaded_python3_provider = 0
+-- Python3 provider is required by molten-nvim (Jupyter kernel execution).
 vim.g.loaded_ruby_provider = 0
 vim.g.loaded_perl_provider = 0
 vim.g.loaded_node_provider = 0
@@ -233,6 +233,7 @@ require('lazy').setup({
   require 'custom.plugins.themes',
   require 'custom.plugins.treesitter-textobjects',
   require 'custom.plugins.venv-selector',
+  require 'custom.plugins.jupyter',
   require 'custom.plugins.winbar',
   require 'kickstart.plugins.debug',
   require 'kickstart.plugins.indent_line',

@@ -12,13 +12,13 @@ return {
   --     -- vim.cmd [[ colorscheme NeoSolarized ]]
   --   end,
   -- },
-  -- {
-  --   'rose-pine/neovim',
-  --   name = 'rose-pine',
-  --   config = function()
-  --     -- vim.cmd 'colorscheme rose-pine'
-  --   end,
-  -- },
+  {
+    'rose-pine/neovim',
+    name = 'rose-pine',
+    config = function()
+      -- vim.cmd 'colorscheme rose-pine'
+    end,
+  },
   {
     'sainnhe/gruvbox-material',
     lazy = false,
