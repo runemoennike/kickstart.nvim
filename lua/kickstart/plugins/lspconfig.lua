@@ -337,6 +337,20 @@ return {
         },
         azure_pipelines_ls = {},
         tombi = {},
+        cssls = {
+          settings = {
+            css = {
+              format = {
+                spaceAroundSelectorSeparator = true,
+                tabSize = 4,
+                insertSpaces = true,
+              },
+            },
+          },
+          init_options = {
+            provideFormatter = true,
+          },
+        },
         ts_ls = {},
         yamlls = {},
         jsonls = {
