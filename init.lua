@@ -235,6 +235,8 @@ require('lazy').setup({
   require 'custom.plugins.venv-selector',
   require 'custom.plugins.jupyter',
   require 'custom.plugins.winbar',
+  require 'custom.plugins.rustaceanvim',
+  require 'custom.plugins.crates',
   require 'kickstart.plugins.debug',
   require 'kickstart.plugins.indent_line',
   require 'kickstart.plugins.neo-tree',

@@ -21,6 +21,7 @@ return { -- Highlight, edit, and navigate code
       'powershell',
       'python',
       'query',
+      'rust',
       'toml',
       'vim',
       'vimdoc',

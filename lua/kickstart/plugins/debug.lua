@@ -9,8 +9,8 @@
 return {
   -- NOTE: Yes, you can install new plugins here!
   'mfussenegger/nvim-dap',
-  -- Lazy load only when opening Python files
-  ft = { 'python' },
+  -- Lazy load only when opening Python or Rust files
+  ft = { 'python', 'rust' },
   -- NOTE: And you can specify dependencies as well
   dependencies = {
     -- Creates a beautiful debugger UI
@@ -192,6 +192,7 @@ return {
       ensure_installed = {
         -- Update this to ensure that you have the debuggers for the langs you want
         'debugpy',
+        'codelldb',
       },
     }
 

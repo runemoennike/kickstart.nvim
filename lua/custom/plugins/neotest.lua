@@ -12,6 +12,7 @@ return {
     require('neotest').setup {
       adapters = {
         require 'neotest-elixir',
+        require 'rustaceanvim.neotest',
       },
     }
   end,
