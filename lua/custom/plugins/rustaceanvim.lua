@@ -6,6 +6,11 @@ return {
     vim.g.rustaceanvim = {
       -- LSP (rust-analyzer) configuration.
       server = {
+        -- Don't pop up rust-analyzer server-status notifications. This silences the
+        -- "Failed to discover workspace" error when editing standalone .rs files that
+        -- aren't part of a Cargo project. (Default is 'error'; set to 'warning'/'error'
+        -- to re-enable.) Inline diagnostics still work; use `:RustLsp logFile` for details.
+        status_notify_level = false,
         -- Buffer-local keymaps, set when rust-analyzer attaches to a buffer.
         -- These run *after* kickstart's LspAttach autocmd, so the `grk` override wins.
         on_attach = function(_, bufnr)
