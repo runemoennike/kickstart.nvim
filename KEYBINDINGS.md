@@ -109,6 +109,21 @@ Inside live grep args picker (insert mode):
 | n | `grt` | Go to type definition |
 | n | `grk` | Show symbol info (hover) |
 
+## Rust (rustaceanvim, buffer-local in Rust files)
+
+These override/extend the LSP defaults and are active only in Rust buffers.
+
+| Mode | Key | Description |
+|------|-----|-------------|
+| n | `grk` | Hover actions (run twice to enter popup, then `<CR>` on an action) |
+| n | `grs` | Structural search & replace |
+| n | `gme` | Expand macro (recursively) |
+| n, x | `gJ` | Join lines (syntax-aware) |
+
+Debugging (`<leader>d*`) and testing (`<leader>r*`) also work in Rust via `codelldb`
+and the rustaceanvim neotest adapter. In `Cargo.toml`, `gra` (code action) and `grk`
+(hover) are powered by crates.nvim's in-process LSP.
+
 ## Formatting
 
 | Mode | Key | Description |
