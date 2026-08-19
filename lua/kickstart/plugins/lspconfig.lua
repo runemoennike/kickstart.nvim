@@ -72,7 +72,7 @@ return {
         -- for LSP related items. It sets the mode, buffer and description for us each time.
         local map = function(keys, func, desc, mode)
           mode = mode or 'n'
-          vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc })
+          vim.keymap.set(mode, keys, func, { buf = event.buf, desc = 'LSP: ' .. desc })
         end
 
         -- Rename the variable under your cursor.
@@ -224,8 +224,6 @@ return {
     ---@field mason table<string, vim.lsp.Config>
     ---@field others table<string, vim.lsp.Config>
 
-    local util = require 'lspconfig.util'
-
     --- UGLY FIX FOR ELIXIRLS DIAGNOSTICS CLEARING IMMIDIATELY
 
     -- Default handler
@@ -239,7 +237,7 @@ return {
     local function key_from_uri(uri)
       local fname = vim.uri_to_fname(uri)
       fname = vim.fs.normalize(fname)
-      if vim.loop.os_uname().sysname:find 'Windows' then
+      if vim.uv.os_uname().sysname:find 'Windows' then
         fname = fname:lower()
       end
       return fname
@@ -248,13 +246,27 @@ return {
     -- Tune this: how long to wait before applying an empty clear (in ms)
     local EMPTY_CLEAR_DELAY = 2000
 
-    function elixirls_publish_diagnostics(_, result, ctx, config)
-      if not result or not result.uri or result.diagnostics == nil then
+    local function elixirls_publish_diagnostics(_, result, ctx, config)
+      -- Nvim 0.12+ decodes JSON `null` as `vim.NIL` (not `nil`). Guard the fields we
+      -- inspect so the checks below behave the same on 0.11 and 0.12.
+      if result == vim.NIL then
+        result = nil
+      end
+      local uri = result and result.uri
+      if uri == vim.NIL then
+        uri = nil
+      end
+      local diagnostics = result and result.diagnostics
+      if diagnostics == vim.NIL then
+        diagnostics = nil
+      end
+
+      if not result or not uri or diagnostics == nil then
         return default_publish(_, result, ctx, config)
       end
 
-      local key = key_from_uri(result.uri)
-      local is_empty = #result.diagnostics == 0
+      local key = key_from_uri(uri)
+      local is_empty = #diagnostics == 0
 
       -- Any new publish cancels an in-flight clear
       local pending = pending_clear_timers[key]
