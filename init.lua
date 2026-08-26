@@ -178,10 +178,12 @@ vim.keymap.set('i', 'jk', '<Esc>', { desc = 'Exit insert mode' })
 vim.keymap.set('n', 'Y', 'yy', { desc = 'Copy entire line' })
 
 -- Open PowerShell terminal (Windows only, falls back to default shell)
+-- NOTE: the win32 check matters -- `pwsh` is installable on Linux/macOS too, so
+-- probing `executable('pwsh')` alone would hijack this on those platforms.
 vim.keymap.set('n', '<leader>c', function()
-  if vim.fn.executable 'pwsh' == 1 then
+  if vim.fn.has 'win32' == 1 and vim.fn.executable 'pwsh' == 1 then
     vim.cmd 'terminal pwsh'
-  elseif vim.fn.executable 'powershell' == 1 then
+  elseif vim.fn.has 'win32' == 1 and vim.fn.executable 'powershell' == 1 then
     vim.cmd 'terminal powershell'
   else
     vim.cmd 'terminal'
