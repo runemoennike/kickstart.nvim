@@ -128,9 +128,17 @@ vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagn
 -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
 -- is not what someone will guess without a bit more experience.
 --
+-- This also latches `b:term_normal_mode`, which tells the auto-insert autocmd
+-- further down to leave this terminal in normal mode when you re-focus it (so
+-- you can scroll/yank output without being yanked back into insert). Pressing
+-- `i`/`a` clears the latch and restores auto-insert.
+--
 -- NOTE: This won't work in all terminal emulators/tmux/etc. Try your own mapping
 -- or just use <C-\><C-n> to exit terminal mode
-vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
+vim.keymap.set('t', '<Esc><Esc>', function()
+  vim.b.term_normal_mode = true
+  return '<C-\\><C-n>'
+end, { expr = true, desc = 'Exit terminal mode' })
 
 -- Keybinds to make split navigation easier.
 --  Use CTRL+<hjkl> to switch between windows
@@ -146,6 +154,23 @@ vim.keymap.set('n', '<C-S-h>', '<C-w>H', { desc = 'Move window to the left' })
 vim.keymap.set('n', '<C-S-l>', '<C-w>L', { desc = 'Move window to the right' })
 vim.keymap.set('n', '<C-S-j>', '<C-w>J', { desc = 'Move window to the lower' })
 vim.keymap.set('n', '<C-S-k>', '<C-w>K', { desc = 'Move window to the upper' })
+
+-- Same CTRL+<hjkl> navigation from inside a :terminal, without having to press
+-- <Esc><Esc> first. <Cmd> mappings run without leaving terminal mode; the window
+-- switch itself is what drops us back to normal mode.
+--
+-- NOTE: this means the shell no longer receives these keys. In PowerShell you
+-- lose <C-l> (clear screen -- use `cls`) and <C-k> (kill line to end). Backspace
+-- is unaffected: Neovim sends <BS> as a keycode distinct from <C-h>.
+for _, key in ipairs { 'h', 'j', 'k', 'l' } do
+  vim.keymap.set('t', '<C-' .. key .. '>', '<Cmd>wincmd ' .. key .. '<CR>', { desc = 'Move focus (from terminal)' })
+end
+
+-- Forward the whole <C-w> prefix from terminal mode to normal mode, so every
+-- window command works from inside a terminal: <C-w>q, <C-w>s, <C-w>v, <C-w>o,
+-- <C-w>=, <C-w>5+, <C-w>t (neotest), ...
+-- Costs the shell <C-w> (PSReadLine BackwardKillWord).
+vim.keymap.set('t', '<C-w>', '<C-\\><C-n><C-w>', { desc = 'Window command prefix' })
 
 -- Custom remaps
 vim.keymap.set('n', 'K', 'i<CR><Esc>', { desc = 'Split line' })
@@ -178,6 +203,53 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   group = vim.api.nvim_create_augroup('kickstart-highlight-yank', { clear = true }),
   callback = function()
     vim.hl.on_yank()
+  end,
+})
+
+-- [[ Terminal ergonomics ]]
+--
+-- Goal: focusing a terminal window puts you straight into insert mode, and
+-- <C-hjkl>/<C-w> get you back out in one press (see the keymaps above).
+local term_group = vim.api.nvim_create_augroup('kickstart-terminal', { clear = true })
+
+vim.api.nvim_create_autocmd('TermOpen', {
+  desc = 'Strip editor chrome from terminal buffers and start typing immediately',
+  group = term_group,
+  callback = function()
+    -- `vim.wo[0][0]` scopes these window options to *this buffer in this window*,
+    -- so re-using the window for a real file (`:e foo.lua`) restores the gutter.
+    vim.wo[0][0].number = false
+    vim.wo[0][0].relativenumber = false
+    vim.wo[0][0].signcolumn = 'no'
+    vim.wo[0][0].cursorline = false
+    vim.wo[0][0].list = false
+    vim.wo[0][0].scrolloff = 0
+    vim.cmd.startinsert()
+  end,
+})
+
+vim.api.nvim_create_autocmd({ 'WinEnter', 'BufWinEnter' }, {
+  desc = 'Resume insert mode when focusing a terminal',
+  group = term_group,
+  callback = function()
+    -- Deferred because `startinsert` silently no-ops on some entry paths
+    -- (notably mouse clicks). Conditions are re-checked inside so a fast
+    -- follow-up keystroke can't strand us in insert mode in the wrong buffer.
+    vim.schedule(function()
+      -- NOTE: normal mode *inside a terminal buffer* reports as 'nt', not 'n'.
+      local m = vim.api.nvim_get_mode().mode
+      if vim.bo.buftype == 'terminal' and not vim.b.term_normal_mode and (m == 'n' or m == 'nt') then
+        vim.cmd.startinsert()
+      end
+    end)
+  end,
+})
+
+vim.api.nvim_create_autocmd('TermEnter', {
+  desc = 'Clear the <Esc><Esc> latch once you start typing again',
+  group = term_group,
+  callback = function()
+    vim.b.term_normal_mode = false
   end,
 })
 

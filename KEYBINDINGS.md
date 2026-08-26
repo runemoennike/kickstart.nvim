@@ -8,7 +8,6 @@ Leader key: **Space**
 |------|-----|-------------|
 | n | `<Esc>` | Clear search highlights |
 | n | `<leader>q` | Open diagnostic quickfix list |
-| t | `<Esc><Esc>` | Exit terminal mode |
 | n | `<C-h>` | Move focus to left window |
 | n | `<C-l>` | Move focus to right window |
 | n | `<C-j>` | Move focus to lower window |
@@ -21,6 +20,30 @@ Leader key: **Space**
 | i | `jk` | Exit insert mode |
 | n | `Y` | Copy entire line |
 | n | `<leader>c` | Open console (PowerShell) |
+
+## Terminal
+
+Terminal windows auto-enter insert mode when focused, so you never need to press
+`i` first. `<C-hjkl>` and `<C-w>` work directly from terminal mode, so you never
+need `<Esc><Esc>` just to leave the window.
+
+| Mode | Key | Description |
+|------|-----|-------------|
+| t | `<C-h>` | Move focus to left window |
+| t | `<C-l>` | Move focus to right window |
+| t | `<C-j>` | Move focus to lower window |
+| t | `<C-k>` | Move focus to upper window |
+| t | `<C-w>{cmd}` | Any window command (`<C-w>v`, `<C-w>q`, `<C-w>o`, `<C-w>=`, ...) |
+| t | `<Esc><Esc>` | Exit terminal mode and *stay* in normal mode on re-focus |
+
+`<Esc><Esc>` is sticky: use it when you want to scroll, search or yank terminal
+output. That terminal stays in normal mode even after you leave and come back,
+until you press `i`/`a` again. Leaving via `<C-hjkl>` is *not* sticky -- coming
+back drops you straight into insert mode.
+
+Because Neovim intercepts these keys, the shell no longer receives them. In
+PowerShell you lose `<C-l>` (clear screen -- use `cls`), `<C-k>` (kill line to
+end) and `<C-w>` (delete previous word). Backspace is unaffected.
 
 ## Surround (mini.surround)
 
