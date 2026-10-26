@@ -61,7 +61,7 @@ ginit.vim                      -- nvim-qt GUI settings (font, scroll zoom)
 | Tool | Purpose |
 |------|---------|
 | [.NET SDK](https://dotnet.microsoft.com/) | Required by Roslyn LSP |
-| roslyn | C# LSP (auto-installed by Mason via Crashdummyy registry) |
+| roslyn-language-server | Official Microsoft C# LSP from the official Mason registry (used via roslyn.nvim) |
 
 ### Web / TypeScript Development
 

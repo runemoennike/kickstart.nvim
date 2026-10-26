@@ -12,7 +12,6 @@ return {
       opts = {
         registries = {
           'github:mason-org/mason-registry',
-          'github:Crashdummyy/mason-registry',
         },
       },
     },
@@ -327,7 +326,6 @@ return {
             },
           },
         },
-        roslyn = {},
         powershell_es = {
           filetypes = { 'ps1', 'psm1', 'psd1' },
           init_options = {
@@ -419,6 +417,7 @@ return {
     local ensure_installed = vim.tbl_keys(servers.mason or {})
     vim.list_extend(ensure_installed, {
       'stylua', -- Used to format Lua code
+      'roslyn-language-server', -- Official Microsoft C# LSP (used by roslyn.nvim)
     })
     require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
@@ -438,8 +437,9 @@ return {
     require('mason-lspconfig').setup {
       ensure_installed = {}, -- explicitly set to an empty table (Kickstart populates installs via mason-tool-installer)
       -- rust_analyzer is managed by rustaceanvim (see custom/plugins/rustaceanvim.lua),
-      -- so exclude it here to avoid a duplicate/conflicting LSP client.
-      automatic_enable = { exclude = { 'rust_analyzer' } },
+      -- and roslyn_ls is handled by roslyn.nvim (see custom/plugins/roslyn.lua),
+      -- so exclude them here to avoid duplicate/conflicting LSP clients.
+      automatic_enable = { exclude = { 'rust_analyzer', 'roslyn_ls' } },
     }
 
     -- Manually run vim.lsp.enable for all language servers that are *not* installed via Mason

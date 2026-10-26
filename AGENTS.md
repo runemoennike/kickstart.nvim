@@ -40,7 +40,7 @@ LSP servers are configured in `lua/kickstart/plugins/lspconfig.lua` inside a `se
 
 Both use the same structure: `server_name = { <lsp config> }`. Mason also auto-installs tools listed in the `ensure_installed` array (currently includes `stylua`).
 
-Notable servers: `lua_ls`, `pyright`, `roslyn` (C# -- also has a separate plugin `seblyng/roslyn.nvim`), `elixirls` (has a custom diagnostic debounce handler to prevent premature clearing), `ts_ls`, `powershell_es`, `jsonls`, `yamlls`, `azure_pipelines_ls`, `tombi`.
+Notable servers: `lua_ls`, `pyright`, official Microsoft `roslyn-language-server` (installed via mason-tool-installer and driven by `seblyng/roslyn.nvim`; `roslyn_ls` is excluded from mason-lspconfig auto-enable), `elixirls` (has a custom diagnostic debounce handler to prevent premature clearing), `ts_ls`, `powershell_es`, `jsonls`, `yamlls`, `azure_pipelines_ls`, `tombi`.
 
 ## Local plugins
 
