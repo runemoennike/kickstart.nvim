@@ -7,6 +7,9 @@
     re-opened periodically, keeping them in Defender's scan cache. See
     utils\nvim-warmup.ps1 for why that is necessary.
 
+    The scheduled action runs via conhost.exe --headless so no console window
+    flashes while the task runs (requires Windows 11 or Windows 10 22H2+).
+
     The task runs with an Interactive principal, i.e. inside the logged-on user's
     session. That detail matters: an S4U principal was tried first because it runs
     with no console window at all, but warming from session 0 does not help. DLP
@@ -91,9 +94,15 @@ if (-not $pwsh) {
 Remove-LegacyLoginItems
 
 $userId = '{0}\{1}' -f $env:USERDOMAIN, $env:USERNAME
+$conhost = Join-Path $env:SystemRoot 'System32\conhost.exe'
+if (-not (Test-Path -LiteralPath $conhost)) {
+    throw "Missing conhost executable: $conhost"
+}
 
-$action = New-ScheduledTaskAction -Execute $pwsh `
-    -Argument ('-NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass -File "{0}"' -f $warmupScript) `
+# -WindowStyle Hidden only hides after a console is already shown, so use
+# conhost --headless to prevent a window entirely (Win11 / Win10 22H2+).
+$action = New-ScheduledTaskAction -Execute $conhost `
+    -Argument ('--headless "{0}" -NoProfile -NonInteractive -ExecutionPolicy Bypass -File "{1}"' -f $pwsh, $warmupScript) `
     -WorkingDirectory (Split-Path -Parent $warmupScript)
 
 # Two triggers: one so a freshly booted session is warmed without waiting a full
