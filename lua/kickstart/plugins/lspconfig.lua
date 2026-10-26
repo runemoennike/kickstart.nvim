@@ -361,6 +361,7 @@ return {
             provideFormatter = true,
           },
         },
+        html = {},
         ts_ls = {},
         yamlls = {},
         jsonls = {
